@@ -46,7 +46,6 @@ function checkUsers(userData) {
         return item.gameID === userSignup.nameID || item.gameName === userSignup.nameGame
     })
     let checkCf = userSignup.signupPassword === userSignup.cfsignupPassword
-    console.log(checker);
     let errorSignup = document.getElementById('signup-error-message')
     let errorCf = document.getElementById('cf-error-message')
     let errorLeghth = document.getElementById('length-error-message')

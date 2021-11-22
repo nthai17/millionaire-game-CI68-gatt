@@ -112,8 +112,6 @@ function renderAnswers() {
 startGameBtn.addEventListener('click', (event) => {
     let randomNumber = Math.round(Math.random()* 4) + 1;
     let randomQuestion = 'C' + randomNumber;
-    console.log(randomNumber);
-    console.log(randomQuestion);
     isPlaying = true
     changeInTotal(randomQuestion);
     timer = setInterval(updateCountdown, 1000);

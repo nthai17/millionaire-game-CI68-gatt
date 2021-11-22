@@ -27,7 +27,6 @@ class HistoryTable extends HTMLElement {
         const data = this.list
         const historyContent = this.shadowRoot.querySelector("tbody")
         while (historyContent.firstChild) {
-            console.log(historyContent.firstChild);
             historyContent.removeChild(historyContent.firstChild)
         }
         if(data.length){
