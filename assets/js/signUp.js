@@ -68,15 +68,5 @@ function checkUsers(userData) {
     }
 
 }
-let inputLoginArr = document.querySelectorAll('.login input[name]')
-document.querySelector(".wrapper .close-btn").addEventListener("click", function () {   
-    document.querySelector(".wrapper").classList.remove("active");
-    let messageArr = document.querySelectorAll('.message')
-        messageArr.forEach(mess => {
-            mess.style.display = 'none'
-        })
-    inputLoginArr.forEach(item => {
-        item.value = ''
-    })
-});
+
 

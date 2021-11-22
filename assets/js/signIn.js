@@ -3,17 +3,34 @@ const loginForm = document.querySelector("form.login");
 const loginBtn = document.querySelector("label.login");
 const signupBtn = document.querySelector("label.signup");
 const signupLink = document.querySelector("form .signup-link a");
+let inputLoginArr = document.querySelectorAll('form input[name]')
+let messageArr = document.querySelectorAll('.message')
+
 signupBtn.onclick = (()=>{
-  loginForm.style.marginLeft = "-50%";
-  loginText.style.marginLeft = "-50%";
-});
+    loginForm.style.marginLeft = "-50%";
+    loginText.style.marginLeft = "-50%";
+    messageArr.forEach(mess => {
+    mess.style.display = 'none'
+    })
+    inputLoginArr.forEach(item => {
+        item.value = ''
+    })
+})
+
 loginBtn.onclick = (()=>{
-  loginForm.style.marginLeft = "0%";
-  loginText.style.marginLeft = "0%";
+    loginForm.style.marginLeft = "0%";
+    loginText.style.marginLeft = "0%";
+    messageArr.forEach(mess => {
+    mess.style.display = 'none'
+    })
+    inputLoginArr.forEach(item => {
+        item.value = ''
+    })
 });
+
 signupLink.onclick = (()=>{
-  signupBtn.click();
-  return false;
+    signupBtn.click();
+    return false;
 });
 
 let login = document.getElementById("login-form")
@@ -30,13 +47,24 @@ let gameScreen = document.querySelector('.container')
 let mainScreen = document.querySelector('#main-screen')
 let obj = JSON.parse(localStorage.getItem('userLogin'));
 let backBtn = document.querySelector('.back-btn')
+let closeWraper = document.querySelector(".wrapper .close-btn")
 
+closeWraper.addEventListener("click", function () {   
+    wraper.classList.remove("active");
+    messageArr.forEach(mess => {
+        mess.style.display = 'none'
+    })
+    inputLoginArr.forEach(item => {
+        item.value = ''
+    })
+});
 
 // Khi khởi động, kiểm tra trong local có thông tin đăng nhập trước đó và trạng thái có đang đăng nhập k
 // thì lấy thông tin đó render
 if (obj && isLogin) {
     renderUser(obj)
 }
+
 // click nút "Chơi ngay" - nếu chưa đăng nhập sẽ hiện đăng nhập, nếu đã đăng nhập thì vào game
 startBtn.addEventListener("click", function () {
     if (!isLogin) {
