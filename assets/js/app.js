@@ -2,8 +2,6 @@ let question = document.getElementById('question');
 let answers = document.querySelectorAll('.answers');
 let questionNumbers = document.querySelectorAll('.question-numbers')
 let correctAnswer = '';
-let randomNumber = Math.round(Math.random()* 4) + 1;
-let randomQuestion = 'C' + randomNumber;
 let loseModal = document.getElementById('lose-modal');
 let closeBtn = document.querySelectorAll('#close-btn');
 let winModal = document.getElementById('win-modal');
@@ -11,6 +9,7 @@ let countdownTimer = document.getElementById('countdown-timer');
 let startGameBtn = document.getElementById('start-btn');
 let timer;
 let number = 1;
+let isPlaying = false
 
 function clearAll() {
     question.innerText = '';
@@ -29,7 +28,7 @@ closeBtn.forEach(closeButton => {
     })
 })
 
-async function changingQuestion() {
+async function changingQuestion(randomQuestion) {
     await db.collection('questions').doc(`group-${number}`).get().then(doc => {
         question.innerText = doc.data()[randomQuestion].question;
         answers.forEach((answer, index) => {
@@ -50,7 +49,7 @@ function updateCountdown() {
     }
 }
 
-async function correctAnswers() {
+async function correctAnswers(randomQuestion) {
     await db.collection('questions').doc(`group-${number}`).get().then(doc => {
         correctAnswer = doc.data()[randomQuestion].correctAnswer;
     })
@@ -88,33 +87,42 @@ async function updateData(id) {
 function renderAnswers() {
     answers.forEach(answer => {
         answer.addEventListener('click', () => {
-            if(answer.innerText === correctAnswer){
-                number++;
-                countdownTimer.innerText = 15;
-                if(number == 11){
-                    winModal.style.display = 'block';
+            if (isPlaying) {
+                if(answer.innerText && answer.innerText === correctAnswer){
+                    number++;
+                    countdownTimer.innerText = 15;
+                    if(number == 11){
+                        winModal.style.display = 'block';
+                    }
+                    let newRandomNumber = Math.round(Math.random()* 4) + 1
+                    let newRandomQuestion = 'C' + newRandomNumber;
+                    changeInTotal(newRandomQuestion);
+                } else {
+                    let userLogginId = JSON.parse(localStorage.getItem('userLoginId'))
+                    updateData(userLogginId);
+                    loseModal.style.display = 'block';
+                    clearInterval(timer);
+                    isPlaying = false
                 }
-                changeInTotal();
-            } else {
-                let userLogginId = JSON.parse(localStorage.getItem('userLoginId'))
-                updateData(userLogginId);
-                loseModal.style.display = 'block';
-                changeInTotal();
-                clearInterval(timer);
             }
         })
     })
 }
 
-startGameBtn.addEventListener('click', function startEvent(event) {
-    changeInTotal();
+startGameBtn.addEventListener('click', (event) => {
+    let randomNumber = Math.round(Math.random()* 4) + 1;
+    let randomQuestion = 'C' + randomNumber;
+    console.log(randomNumber);
+    console.log(randomQuestion);
+    isPlaying = true
+    changeInTotal(randomQuestion);
     timer = setInterval(updateCountdown, 1000);
     event.target.style.display = 'none';
 })
 
-function changeInTotal() {
-    changingQuestion();
-    correctAnswers();
+function changeInTotal(randomQuestion) {
+    changingQuestion(randomQuestion);
+    correctAnswers(randomQuestion);
     colorChangeQuestionNumber();
 }
 
