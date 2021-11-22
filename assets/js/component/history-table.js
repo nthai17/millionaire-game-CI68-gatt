@@ -20,7 +20,7 @@ class HistoryTable extends HTMLElement {
         this.list = []
         const linkElement = document.createElement("link")
         linkElement.setAttribute("rel", "stylesheet")
-        linkElement.setAttribute("href", "/assets/css/history-table.css")
+        linkElement.setAttribute("href", "./assets/css/history-table.css")
         this.shadowRoot.appendChild(linkElement)
     }
     render(){

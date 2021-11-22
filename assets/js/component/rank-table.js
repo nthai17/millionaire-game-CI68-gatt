@@ -16,7 +16,7 @@ class RankMillionair extends HTMLElement {
         });
         this.shadowRoot.appendChild(rankTemplate.content.cloneNode(true));
         let linkElemet = document.createElement('link');
-        linkElemet.setAttribute('href','/assets/css/tablerank.css')
+        linkElemet.setAttribute('href','./assets/css/tablerank.css')
         linkElemet.setAttribute('rel','stylesheet')
         this.shadowRoot.appendChild(linkElemet)
     }
